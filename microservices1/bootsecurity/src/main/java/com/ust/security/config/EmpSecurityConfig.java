@@ -1,0 +1,45 @@
+package com.ust.security.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+//use resources provided by environment /setting up environment
+
+@EnableWebSecurity
+public class EmpSecurityConfig  extends WebSecurityConfigurerAdapter{
+	//by extending we are overriding methods
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth)throws Exception {
+		//credentials will be stored in program cache
+		auth.inMemoryAuthentication().withUser("bond").password("james")
+		.roles("USER")
+		.and()
+		.withUser("poo")
+		.password("bear")
+		.roles("ADMIN");
+		
+	}
+	
+	@Bean
+	@SuppressWarnings("depreciation")
+	public PasswordEncoder getPasswordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
+	//authorization
+	@Override
+	protected void configure(HttpSecurity http)throws Exception{
+		http.authorizeRequests()
+		.antMatchers("/admin").hasRole("ADMIN")
+		.antMatchers("/user").hasAnyRole("USER")
+		.antMatchers("/").permitAll().and().formLogin();//root endpoint all can access
+	}
+
+}
+//The getPasswordEncoder() method is used to create a password encoder. 
+//In this case, the method is used to create a NoOpPasswordEncoder, which is a password encoder that does not actually encrypt passwords. This is because the in-memory users are not stored in a database and there is no need to encrypt their passwords.

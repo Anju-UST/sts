@@ -1,0 +1,28 @@
+#server:
+#  port: 7070
+# 
+#spring :
+#  application:    
+#      name: CITIZEN-SERVICE
+#  datasource :
+#    url : jdbc:mysql://localhost:3306/sakila
+#    password: pass@word1
+#    username: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver  
+#    jpa:   
+#    hibernate:      
+#    ddl-auto: create    
+#    
+#     
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#         defaultZone: http://localhost:8761/eureka
+#instance: 
+#    hostname: localhost  
+#    
+ 
+ 
+  

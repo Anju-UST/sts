@@ -1,0 +1,65 @@
+package com.ust.crud.Controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ust.crud.model.StudentCrud;
+import com.ust.crud.service.StudentService;
+
+
+@CrossOrigin()
+@RestController
+@RequestMapping("/api/v2")
+public class StudentController {
+      @Autowired
+	 StudentService service;
+     
+ //creating student
+      @PostMapping("/create")
+  public ResponseEntity<?> createStudent(@RequestBody StudentCrud std){
+	   boolean str=service.addStudent(std);
+	 
+	  return  ResponseEntity.ok(str);//or
+	  //return new ResponseEntity<>(service.addStudent(std),HTTPStatus.CREATED);
+  }
+ //fetch by id
+      @GetMapping("/fetch/{id}")
+      public StudentCrud fetchStudent(@PathVariable long id) {
+    	  return service.retriveStudent(id);
+      }
+ //to fetch the method for another protocol     
+  @CrossOrigin
+//fetch all
+      @GetMapping("/fetch/all")
+      public List<StudentCrud> fetchAll() {
+    	  return service.retriveAll();
+      }
+   
+ //updating student
+      @PutMapping("/update/{id}")
+      public ResponseEntity<?> updateStudent(@PathVariable long id,@RequestBody StudentCrud std ){
+    	 
+		return ResponseEntity.ok().body(service.updateDetails(std));
+    	 
+      }
+      @CrossOrigin
+ //delete studentdetails
+      @DeleteMapping("/delete/{id}")
+      public void deleteStudent(@PathVariable long id) {
+    	  service.deleteStudent(id);
+      }
+}

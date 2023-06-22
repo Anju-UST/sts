@@ -1,0 +1,67 @@
+package com.ust.crud.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ust.crud.Repo.StudentRepo;
+import com.ust.crud.model.StudentCrud;
+
+
+
+
+@Service
+public class StudentService {
+	@Autowired
+	StudentRepo repo;
+	
+//create
+	public boolean addStudent(StudentCrud s) {
+		repo.save(s);
+		return true;
+	}
+
+//fetch by id
+	public StudentCrud retriveStudent(long id) {
+		// TODO Auto-generated method stub
+		Optional<StudentCrud>opt=repo.findById(id);
+		if(opt.isPresent()) {
+			return opt.get();
+		}
+		else
+			return null;
+	}
+
+//fetch all
+	public List<StudentCrud> retriveAll() {
+		// TODO Auto-generated method stub
+		return repo.findAll();
+	}
+
+//update
+	public StudentCrud updateDetails(StudentCrud std) {
+		// TODO Auto-generated method stub
+		Optional<StudentCrud>opt=repo.findById(std.getId());
+		if(opt.isPresent()) {
+			StudentCrud tempStudent= opt.get();
+			tempStudent.setId(std.getId());
+			tempStudent.setName(std.getName());
+			tempStudent.setDept(std.getDept());
+			 return repo.save(tempStudent);
+		}
+		else
+			return null;
+			}
+
+//delete
+	public void deleteStudent(long id) {
+		// TODO Auto-generated method stub
+		repo.deleteById(id);
+	}
+	
+
+	
+
+}

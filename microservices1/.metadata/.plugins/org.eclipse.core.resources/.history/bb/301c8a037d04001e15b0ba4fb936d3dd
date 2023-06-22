@@ -1,0 +1,11 @@
+package com.ust.crud.Repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ust.crud.model.StudentCrud;
+
+
+
+public interface StudentRepo extends JpaRepository<StudentCrud,Long> {
+
+}
